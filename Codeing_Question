@@ -1,0 +1,46 @@
+import java.util.HashMap;
+
+public class LongestSubstringWithoutRepeatingChars {
+
+    public static String longestSubstring(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+
+        // Using a HashMap to store the index of each character in the string
+        HashMap<Character, Integer> charIndexMap = new HashMap<>();
+
+        int start = 0; // Start index of the current substring
+        int maxLen = 0; // Maximum length of substring without repeating characters
+        int maxStart = 0; // Start index of the longest substring without repeating characters
+
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            // If the character is already in the substring, update the start index
+            if (charIndexMap.containsKey(c) && charIndexMap.get(c) >= start) {
+                start = charIndexMap.get(c) + 1;
+            }
+
+            // Update the index of the current character
+            charIndexMap.put(c, i);
+
+            // Update the maximum length and starting index if a longer substring is found
+            if (i - start + 1 > maxLen) {
+                maxLen = i - start + 1;
+                maxStart = start;
+            }
+        }
+
+        // Return the longest substring without repeating characters
+        return s.substring(maxStart, maxStart + maxLen);
+    }
+
+    public static void main(String[] args) {
+        // Example usage
+        String input = "abcabcbb";
+        String result = longestSubstring(input);
+        System.out.println("Input: " + input);
+        System.out.println("Longest Substring Without Repeating Characters: " + result);
+    }
+}
